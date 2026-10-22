@@ -1,0 +1,42 @@
+{
+  "result": [
+    {
+      "alpha": "A",
+      "cinemas": [
+        {
+          "cinemaId": "10051",
+          "cinemaName": "Accrington",
+          "fullName": "Accrington - Example Viaduct",
+          "venueCurrency": "GBP",
+          "whatsOnUrl": "https://www.myvue.com/cinema/accrington/whats-on"
+        }
+      ]
+    },
+    {
+      "alpha": "B",
+      "cinemas": [
+        {
+          "cinemaId": "10015",
+          "cinemaName": "Birmingham (Star City)",
+          "fullName": "Birmingham - Example Park",
+          "venueCurrency": "GBP",
+          "whatsOnUrl": "https://www.myvue.com/cinema/birmingham-star-city/whats-on"
+        }
+      ]
+    },
+    {
+      "alpha": "E",
+      "cinemas": [
+        {
+          "cinemaId": "90001",
+          "cinemaName": "Example Euro",
+          "fullName": "Example Euro - Elsewhere",
+          "venueCurrency": "EUR",
+          "whatsOnUrl": "https://www.myvue.com/cinema/example-euro/whats-on"
+        }
+      ]
+    }
+  ],
+  "responseCode": 0,
+  "errorMessage": null
+}

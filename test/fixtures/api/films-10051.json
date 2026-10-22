@@ -1,0 +1,103 @@
+{
+  "result": [
+    {
+      "filmId": "HO1",
+      "filmTitle": "The Example Film",
+      "showingGroups": [
+        {
+          "date": "2026-10-24T00:00:00",
+          "sessions": [
+            {
+              "sessionId": "1001",
+              "bookingUrl": "/book-tickets/summary/10051/HO1/1001",
+              "showTimeWithTimeZone": "2026-10-24T10:30:00+01:00",
+              "attributes": [
+                { "name": "English", "shortName": "", "value": "english" },
+                { "name": "Audio Description (AD)", "shortName": "AD", "value": "audio" }
+              ]
+            },
+            {
+              "sessionId": "1002",
+              "bookingUrl": "/book-tickets/summary/10051/HO1/1002",
+              "showTimeWithTimeZone": "2026-10-24T14:00:00+01:00",
+              "attributes": [
+                { "name": "3D", "shortName": "3D", "value": "3d" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "2026-10-25T00:00:00",
+          "sessions": [
+            {
+              "sessionId": "1009",
+              "bookingUrl": "/book-tickets/summary/10051/HO1/1009",
+              "showTimeWithTimeZone": "2026-10-25T10:30:00+00:00",
+              "attributes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filmId": "HO2",
+      "filmTitle": "Imaginary Picture (2026) (Tamil)",
+      "showingGroups": [
+        {
+          "date": "2026-10-24T00:00:00",
+          "sessions": [
+            {
+              "sessionId": "1003",
+              "bookingUrl": "/book-tickets/summary/10051/HO2/1003",
+              "showTimeWithTimeZone": "2026-10-24T18:00:00+01:00",
+              "attributes": [
+                { "name": "Tamil", "shortName": "Tamil", "value": "tamil" },
+                { "name": "Open Captioned", "shortName": "Open Captioned", "value": "open-captioned" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filmId": "HO3",
+      "filmTitle": "Mystery Screening (24 October 2026)",
+      "showingGroups": [
+        {
+          "date": "2026-10-24T00:00:00",
+          "sessions": [
+            {
+              "sessionId": "1004",
+              "bookingUrl": "/book-tickets/summary/10051/HO3/1004",
+              "showTimeWithTimeZone": "2026-10-24T11:00:00+01:00",
+              "attributes": [
+                { "name": "Mighty Mornings", "shortName": "Mighty Mornings", "value": "mightymornings" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filmId": "HO4",
+      "filmTitle": "CFF: Made Up Matinee",
+      "showingGroups": [
+        {
+          "date": "2026-10-24T00:00:00",
+          "sessions": [
+            {
+              "sessionId": "1005",
+              "bookingUrl": "/book-tickets/summary/10051/HO4/1005",
+              "showTimeWithTimeZone": "2026-10-25T00:15:00+01:00",
+              "attributes": [
+                { "name": "Big Screen Events", "shortName": "", "value": "big-screen-events" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responseCode": 0,
+  "errorMessage": null
+}
