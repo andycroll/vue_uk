@@ -12,6 +12,13 @@ class LiveCinemaTest < Minitest::Test
   def test_address_has_a_postcode
     refute_empty VueUk::Cinema.new(10051).postal_code
   end
+
+  def test_cinema_has_uk_coordinates
+    cinema = VueUk::Cinema.new(10051)
+
+    assert_includes 49.0..61.0, cinema.latitude
+    assert_includes(-9.0..2.0, cinema.longitude)
+  end
 end
 
 class LivePerformanceTest < Minitest::Test

@@ -10,7 +10,8 @@ module VueUk
     # A county and postcode on one line, e.g. 'Essex CO4 5UP'
     REGION_AND_POSTCODE = /\A(.+?)\s+([A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2})\z/i.freeze
 
-    # Map coordinates some cinemas list in place of a postcode
+    # Map coordinates, as on each cinema page and in place of a postcode in
+    # some addresses
     COORDINATES = /\A-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?\z/.freeze
 
     # Constructor
@@ -75,6 +76,24 @@ module VueUk
       'Vue'.freeze
     end
 
+    # Latitude of the cinema, read from its page on the Vue website
+    # @return [Float, nil] decimal degrees, or nil when unknown
+    # @example
+    #   VueUk::Cinema.new(10051).latitude
+    #   #=> 53.754874975913864
+    def latitude
+      coordinates&.first
+    end
+
+    # Longitude of the cinema, read from its page on the Vue website
+    # @return [Float, nil] decimal degrees, or nil when unknown
+    # @example
+    #   VueUk::Cinema.new(10051).longitude
+    #   #=> -2.369161692538972
+    def longitude
+      coordinates&.last
+    end
+
     # The name of the cinema
     # @return [String]
     # @example
@@ -102,14 +121,26 @@ module VueUk
     private
 
     def address_lines
-      @page ||= VueUk::Internal::Website.new.cinema(cinema_hash.fetch('whatsOnUrl'))
-      @page.dig('cinemaAddress', 'value').to_s.split(/\r?\n/)
+      page.dig('cinemaAddress', 'value').to_s.split(/\r?\n/)
            .map { |line| line.strip.sub(/,\s*(UK|United Kingdom)\z/i, '') }
            .reject { |line| line.empty? || line.match?(COORDINATES) }
     end
 
     def cinema_hash
       @cinema_hash ||= self.class.send(:cinemas_hash).fetch(id, {})
+    end
+
+    # 0, 0 marks a cinema whose position was never set
+    def coordinates
+      value = page.dig('cinemaLocationCoordinates', 'value').to_s.strip
+      if value.match?(COORDINATES)
+        pair = value.split(',').map(&:to_f)
+        pair if pair.any?(&:nonzero?)
+      end
+    end
+
+    def page
+      @page ||= VueUk::Internal::Website.new.cinema(cinema_hash.fetch('whatsOnUrl'))
     end
   end
 end

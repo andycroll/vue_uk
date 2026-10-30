@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0] - Unreleased
+
+### Added
+- `Cinema#latitude` and `Cinema#longitude` as Floats in decimal degrees, read from `cinemaLocationCoordinates` on the cinema's page like its address. They are `nil` when the page has no readable coordinates or they are 0, 0.
+
 ## [1.0.0] - 2026-10-22
 
 ### Added
