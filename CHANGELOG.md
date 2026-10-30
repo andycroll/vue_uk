@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `Cinema#latitude` and `Cinema#longitude` as Floats in decimal degrees, read from `cinemaLocationCoordinates` on the cinema's page like its address. They are `nil` when the page has no readable coordinates or they are 0, 0.
 
+### Changed
+- The cinema list is fetched again after an hour (`Cinema::CACHE_TTL`), so a long-running process sees cinemas Vue opens or closes.
+
 ## [1.0.0] - 2026-10-22
 
 ### Added

@@ -19,6 +19,22 @@ class VueUk::CinemaTest < Minitest::Test
     end
   end
 
+  def test_cinema_list_expires_after_cache_ttl
+    requests = 0
+    new_api = lambda do
+      requests += 1
+      @api_response
+    end
+    now = Time.now
+
+    VueUk::Internal::ApiResponse.stub(:new, new_api) do
+      Time.stub(:now, now) { 2.times { VueUk::Cinema.all } }
+      Time.stub(:now, now + VueUk::Cinema::CACHE_TTL + 1) { VueUk::Cinema.all }
+    end
+
+    assert_equal 2, requests
+  end
+
   def test_name_and_full_name
     with_fakes do
       assert_equal 'Accrington', VueUk::Cinema.new(10051).name

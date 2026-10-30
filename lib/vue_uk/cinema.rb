@@ -14,6 +14,10 @@ module VueUk
     # some addresses
     COORDINATES = /\A-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?\z/.freeze
 
+    # Seconds the cinema list is kept, so a long-running process sees
+    # cinemas Vue opens or closes
+    CACHE_TTL = 3600
+
     # Constructor
     # @param [Integer, String] id the cinema id of the format 10051/'10051'
     # @return [VueUk::Cinema]
@@ -112,9 +116,13 @@ module VueUk
     # @api private
     # Leaves out Vue's euro-priced cinemas outside the UK.
     def self.cinemas_hash
-      @cinemas_hash ||= VueUk::Internal::ApiResponse.new.cinemas
+      if @cinemas_hash.nil? || Time.now - @cinemas_fetched_at > CACHE_TTL
+        @cinemas_hash = VueUk::Internal::ApiResponse.new.cinemas
                                                     .select { |cinema| cinema['venueCurrency'] == 'GBP' }
                                                     .to_h { |cinema| [cinema.fetch('cinemaId'), cinema] }
+        @cinemas_fetched_at = Time.now
+      end
+      @cinemas_hash
     end
     private_class_method :cinemas_hash
 
