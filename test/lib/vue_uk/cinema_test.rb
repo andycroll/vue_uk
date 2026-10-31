@@ -19,6 +19,22 @@ class VueUk::CinemaTest < Minitest::Test
     end
   end
 
+  def test_cinema_list_expires_after_cache_ttl
+    requests = 0
+    new_api = lambda do
+      requests += 1
+      @api_response
+    end
+    now = Time.now
+
+    VueUk::Internal::ApiResponse.stub(:new, new_api) do
+      Time.stub(:now, now) { 2.times { VueUk::Cinema.all } }
+      Time.stub(:now, now + VueUk::Cinema::CACHE_TTL + 1) { VueUk::Cinema.all }
+    end
+
+    assert_equal 2, requests
+  end
+
   def test_name_and_full_name
     with_fakes do
       assert_equal 'Accrington', VueUk::Cinema.new(10051).name
@@ -91,7 +107,48 @@ class VueUk::CinemaTest < Minitest::Test
     assert_equal '255 Example Road', adr[:extended_address]
   end
 
+  def test_latitude_and_longitude_from_cinema_page
+    with_fakes do
+      cinema = VueUk::Cinema.new(10051)
+
+      assert_in_delta 53.7548, cinema.latitude, 0.0001
+      assert_in_delta(-2.3691, cinema.longitude, 0.0001)
+    end
+  end
+
+  def test_latitude_and_longitude_are_nil_without_coordinates
+    cinema = cinema_with_page('cinemaAddress' => { 'value' => '1 Example Viaduct' })
+
+    assert_nil cinema.latitude
+    assert_nil cinema.longitude
+  end
+
+  def test_latitude_and_longitude_are_nil_at_zero_zero
+    cinema = cinema_with_page('cinemaLocationCoordinates' => { 'value' => '0, 0' })
+
+    assert_nil cinema.latitude
+    assert_nil cinema.longitude
+  end
+
+  def test_latitude_and_longitude_are_nil_for_unreadable_coordinates
+    cinema = cinema_with_page('cinemaLocationCoordinates' => { 'value' => 'Accrington' })
+
+    assert_nil cinema.latitude
+    assert_nil cinema.longitude
+  end
+
   private
+
+  def cinema_with_page(page)
+    website = Object.new
+    website.define_singleton_method(:cinema) { |_url| page }
+    cinema = VueUk::Cinema.new(10051)
+
+    VueUk::Internal::ApiResponse.stub(:new, @api_response) do
+      VueUk::Internal::Website.stub(:new, website) { cinema.latitude }
+    end
+    cinema
+  end
 
   def adr_for(address)
     website = Object.new

@@ -30,8 +30,8 @@ once if the API rejects it.
 ### Cinema
 
 Only UK cinemas are returned; Vue's euro-priced cinemas are left out. The API
-has no addresses, so the first call to an address method reads the cinema's page
-on myvue.com.
+has no addresses or coordinates, so the first call to an address method,
+`latitude` or `longitude` reads the cinema's page on myvue.com.
 
 ``` ruby
 VueUk::Cinema.all
@@ -58,6 +58,12 @@ cinema.full_name
 
 cinema.id
 #=> '10051'
+
+cinema.latitude
+#=> 53.754874975913864
+
+cinema.longitude
+#=> -2.369161692538972
 
 cinema.url
 #=> 'https://www.myvue.com/cinema/accrington'

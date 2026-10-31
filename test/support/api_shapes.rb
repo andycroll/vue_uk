@@ -34,5 +34,7 @@ module ApiShapes
 
   def assert_cinema_page_shape(cinema)
     assert_kind_of String, cinema.fetch('cinemaAddress').fetch('value')
+    coordinates = cinema.dig('cinemaLocationCoordinates', 'value')
+    assert_match(/\A-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?\z/, coordinates.strip) unless coordinates.nil?
   end
 end
