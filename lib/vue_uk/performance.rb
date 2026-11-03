@@ -23,6 +23,7 @@ module VueUk
     #   @option options [Integer] :film_year (nil) year from the film's title
     #   @option options [String] :language (nil) audio language, e.g. 'English'
     #   @option options [Time] :starting_at listed start time of the performance
+    #   @option options [String] :title (nil) raw film title, read for audience labels
 
     # Performances within an inclusive range of showing dates, from one request
     # for all of the cinema's advertised dates.
