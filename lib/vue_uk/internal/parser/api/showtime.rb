@@ -44,6 +44,7 @@ module VueUk
               film_year: Cinebase::TitleSanitizer.film_year(title),
               language: attribute_names.find { |name| LANGUAGES.include?(name) },
               starting_at: starting_at,
+              title: title,
               variant: attribute_names.filter_map { |name| VARIANTS[name] }.uniq
             }
           end

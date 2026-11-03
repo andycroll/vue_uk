@@ -10,6 +10,7 @@ class VueUk::Internal::Parser::Api::ShowtimeTest < Minitest::Test
       film_year: 1996,
       language: nil,
       starting_at: Time.utc(2026, 10, 24, 17, 30),
+      title: 'From Dusk Till Dawn (1996)',
       variant: []
     }
 
@@ -26,19 +27,27 @@ class VueUk::Internal::Parser::Api::ShowtimeTest < Minitest::Test
     assert_equal %w(autism_friendly kids), variant
   end
 
+  def test_performance_reads_audience_label_from_title
+    attributes = parse(title: 'Relaxed Screening: Zootropolis 2')
+    performance = VueUk::Performance.new(attributes.merge(cinema_id: '10051', cinema_name: 'Accrington'))
+
+    assert_equal 'Zootropolis 2', performance.film_name
+    assert_equal %w(relaxed), performance.variant
+  end
+
   def test_missing_booking_url
     assert_nil parse(booking_url: nil)[:booking_url]
   end
 
   private
 
-  def parse(attributes: [], booking_url: '/book-tickets/summary/10051/HO1/1')
+  def parse(attributes: [], booking_url: '/book-tickets/summary/10051/HO1/1', title: 'From Dusk Till Dawn (1996)')
     session = {
       'bookingUrl' => booking_url,
       'showTimeWithTimeZone' => '2026-10-24T18:30:00+01:00',
       'attributes' => attributes.map { |name| { 'name' => name } }
     }
-    film = { 'filmTitle' => 'From Dusk Till Dawn (1996)' }
+    film = { 'filmTitle' => title }
     VueUk::Internal::Parser::Api::Showtime.new(session, film: film).to_hash
   end
 end
